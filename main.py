@@ -3,6 +3,7 @@ from aiogram.utils.markdown import hlink
 from aiogram.dispatcher.filters import Text
 import re
 import config
+import api
 
 # DEFINES
 bot = Bot(token=TOKEN, parse_mode=types.ParseMode.HTML)
