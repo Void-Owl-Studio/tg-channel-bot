@@ -4,13 +4,14 @@ from aiogram.dispatcher.filters import Text
 import re
 import config
 
+# DEFINES
 bot = Bot(token=TOKEN, parse_mode=types.ParseMode.HTML)
 dp = Dispatcher(bot)
 
 
 # Создание кнопок для меню
 def get_menu(menu_name):
-	if menu_name:  # match работает в Python начиная с версии 3.10. Если у вас версия старее, замените на if-else <- убрать, адаптировать под Python 3.8
+	if menu_name:  # match работает в Python начиная с версии 3.10. Если у вас версия старее, замените на if-else
 		case 'startmenu':
 			buttons = [
 				types.InlineKeyboardButton(text='Редактирование', callback_data='btn_submenu'),
@@ -49,7 +50,7 @@ async def process_start(message: types.Message):
 # Обработчик нажатий кнопок
 @dp.callback_query_handler(Text(startswith='btn'))
 async def callbacks(call: types.CallbackQuery):
-	match call.data:  # match работает в Python начиная с версии 3.10. Если у вас версия старее, замените на if-else <- убрать, адаптировать под Python 3.8
+	if-else call.data:  # match работает в Python начиная с версии 3.10. Если у вас версия старее, замените на if-else
 		case 'btn_submenu':
 			await call.message.edit_text('Редактирование', reply_markup=get_menu('submenu'))
 		case 'btn_back':
@@ -68,13 +69,13 @@ async def messages(message: types.Message):
 				original_user_id = re.findall('UID: [0-9]+', message_data)[0].replace('UID: ', '').strip()
 				original_message_id = re.findall('MID: [0-9]+', message_data)[0].replace('MID: ', '').strip()
 				await bot.send_message(original_user_id, message.text, reply_to_message_id=original_message_id, allow_sending_without_reply=True)
-				text = f'Сообщение было отправлено пользователю с ID: {original_user_id}'
+				text = f'Ваш ответ пользователю {original_user_id} отправлен.'
 				await bot.send_message(OWNER, text)
 			except Exception as ex:
 				print(ex)
 	else:
 		try:
-			await bot.send_message(OWNER, f'<b>Сообщение от {hlink(message.from_user.first_name, "tg://user?id=" + str(message.from_user.id))} (UID: {message.from_user.id}, MID: {message.message_id})</b> \n {message.text}')
+			await bot.send_message(OWNER, f'<b>Сообщение от {hlink(message.from_user.first_name, "tg://user?id=" + str(message.from_user.id))}</b> \n {message.text}')
 			await bot.send_message(message.chat.id, f'{message.from_user.first_name}, ваше сообщение получено.')
 		except Exception as ex:
 			print(ex)
