@@ -2,11 +2,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.utils.markdown import hlink
 from aiogram.dispatcher.filters import Text
 import re
-
-
-TOKEN = ''   # Токен Телеграм-бота
-OWNER = ''   # ID чата администратора бота (кто будет видеть запросы от пользователей)
-CHANNEL = '' # ID канала для поста
+import config
 
 bot = Bot(token=TOKEN, parse_mode=types.ParseMode.HTML)
 dp = Dispatcher(bot)
