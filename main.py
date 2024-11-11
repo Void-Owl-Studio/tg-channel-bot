@@ -51,7 +51,7 @@ async def process_start(message: types.Message):
 # Обработчик нажатий кнопок
 @dp.callback_query_handler(Text(startswith='btn'))
 async def callbacks(call: types.CallbackQuery):
-	if-else call.data:  # match работает в Python начиная с версии 3.10. Если у вас версия старее, замените на if-else
+	match call.data:  # match работает в Python начиная с версии 3.10. Если у вас версия старее, замените на if-else
 		case 'btn_submenu':
 			await call.message.edit_text('Редактирование', reply_markup=get_menu('submenu'))
 		case 'btn_back':
