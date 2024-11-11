@@ -12,7 +12,7 @@ dp = Dispatcher(bot)
 
 # Создание кнопок для меню
 def get_menu(menu_name):
-	if menu_name:  # match работает в Python начиная с версии 3.10. Если у вас версия старее, замените на if-else
+	match menu_name:  # match работает в Python начиная с версии 3.10. Если у вас версия старее, замените на if-else
 		case 'startmenu':
 			buttons = [
 				types.InlineKeyboardButton(text='Редактирование', callback_data='btn_submenu'),
