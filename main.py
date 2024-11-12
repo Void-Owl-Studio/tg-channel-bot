@@ -12,7 +12,7 @@ dp = Dispatcher(bot)
 # Создание кнопок для меню
 
 
-# Обработчик команды Start и вывод главного меню
+# Обработчик команд
 @dp.message_handler(commands='start')
 async def process_start(message: types.Message):
 	if str(message.chat.id) == OWNER:
@@ -21,6 +21,9 @@ async def process_start(message: types.Message):
 		except Exception as ex:
 			print(ex)
 
+@dp.message_handler(commands='ping')
+async def process_ping(message: types.Message):
+	await message.answer('PONG!')
 
 # Обработчик нажатий кнопок
 
