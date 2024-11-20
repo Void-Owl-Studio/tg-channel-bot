@@ -21,9 +21,6 @@ async def process_start(message: types.Message):
 		except Exception as ex:
 			print(ex)
 
-@dp.message_handler(commands='ping')
-async def process_ping(message: types.Message):
-	await message.answer('PONG!')
 
 # Обработчик нажатий кнопок
 
