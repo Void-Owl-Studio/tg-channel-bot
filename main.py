@@ -1,19 +1,15 @@
-from aiogram import Bot, Dispatcher, executor, types
-from aiogram.utils.markdown import hlink
-from aiogram.dispatcher.filters import Text
+import asyncio
+from aiogram import Bot, Dispatcher, F, types, html
+from aiogram.client.default import DefaultBotProperties
+from aiogram.filters import Command
 from api import TOKEN, OWNER, CHANNEL, CHAT
-import re
-import config
 
 # DEFINES
-bot = Bot(token=TOKEN, parse_mode=types.ParseMode.HTML)
-dp = Dispatcher(bot)
+bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+dp = Dispatcher()
 
-# Создание кнопок для меню
-
-
-# Обработчик команд
-@dp.message_handler(commands='start')
+# Обработчики команд
+@dp.message(Command('start'))
 async def process_start(message: types.Message):
 	if str(message.chat.id) == OWNER:
 		try:
@@ -22,11 +18,11 @@ async def process_start(message: types.Message):
 			print(ex)
 
 
-# Обработчик нажатий кнопок
+# Обработчики нажатий кнопок
 
 
-# Обработчик сообщений
-@dp.message_handler()
+# Обработчики сообщений
+@dp.message(F.text)
 async def messages(message: types.Message):
 	if str(message.chat.id) == OWNER:
 		if message.reply_to_message:
@@ -41,11 +37,15 @@ async def messages(message: types.Message):
 				print(ex)
 	else:
 		try:
-			await bot.send_message(OWNER, f'<b>#тейк от {hlink(message.from_user.first_name, "tg://user?id=" + str(message.from_user.id))}</b> \n {message.text}')
-			await bot.send_message(message.chat.id, f'{message.from_user.first_name}, ваше сообщение получено.')
+			user_first_name_link = html.link(html.quote(message.from_user.first_name), "tg://user?id=" + str(message.from_user.id))
+			await bot.send_message(OWNER, html.bold('#тейк от {user_first_name_link}')' + \n{message.text}')
+			await bot.send_message(message.chat.id, f'{html.quote(message.from_user.first_name)}, ваше сообщение получено.')
 		except Exception as ex:
 			print(ex)
 
 
+async def main():
+	await dp.start_polling(bot)
+
 if __name__ == '__main__':
-	executor.start_polling(dp)
+	asyncio.run(main)
